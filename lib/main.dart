@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'logic/auth/auth_bloc.dart';
+import 'logic/cart/cart_bloc.dart';
 import 'logic/product/product_bloc.dart';
 import 'logic/product/product_event.dart';
 import 'migrate.dart';

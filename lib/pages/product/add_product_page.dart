@@ -42,96 +42,94 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product'),
+        title: Text('Tambah Produk'),
+        backgroundColor: Color(0xFFA2DE96), // Warna app bar
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Title'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _title = value!;
-                },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: Offset(0, 4),
+                  blurRadius: 8.0,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildTextField('Title', 'Masukkan judul produk', (value) {
+                      _title = value!;
+                    }),
+                    _buildTextField('Description', 'Masukkan deskripsi produk', (value) {
+                      _description = value!;
+                    }),
+                    _buildTextField('Category', 'Masukkan kategori produk', (value) {
+                      _category = value!;
+                    }),
+                    _buildTextField('Image URL', 'Masukkan URL gambar produk', (value) {
+                      _image = value!;
+                    }),
+                    _buildTextField('Price', 'Masukkan harga produk', (value) {
+                      _price = double.parse(value!);
+                    }, keyboardType: TextInputType.number),
+                    _buildTextField('Stock', 'Masukkan jumlah stok produk', (value) {
+                      _stock = int.parse(value!);
+                    }, keyboardType: TextInputType.number),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _saveProduct,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Color(0xFFA2DE96), // Warna tombol
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        textStyle: TextStyle(fontSize: 16),
+                      ),
+                      child: Text('Simpan Produk'),
+                    ),
+                  ],
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _description = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Category'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a category';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _category = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Image URL'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter an image URL';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _image = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Price'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty || double.tryParse(value) == null) {
-                    return 'Please enter a valid price';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _price = double.parse(value!);
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Stock'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty || int.tryParse(value) == null) {
-                    return 'Please enter a valid stock quantity';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _stock = int.parse(value!);
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveProduct,
-                child: Text('Save Product'),
-              ),
-            ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, String hint, FormFieldSetter<String> onSaved, {TextInputType keyboardType = TextInputType.text}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal, width: 2.0),
+          ),
+        ),
+        keyboardType: keyboardType,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Harap masukkan $label';
+          }
+          return null;
+        },
+        onSaved: onSaved,
       ),
     );
   }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/auth/auth_bloc.dart';
 import 'pages/auth/login_page.dart';
 import 'pages/cart/cart_page.dart';
+import 'pages/home/home_page.dart';
+import 'pages/laporan/laporan.dart';
+import 'pages/payment/payment_statuspage.dart';
 import 'pages/product/product_page.dart';
 import 'pages/profile/profile_page.dart';
-
 
 class MainPage extends StatefulWidget {
   @override
@@ -17,9 +20,9 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
+    HomePage(),
     ProductPage(),
-    Center(child: Text('Search Page')),
-    Center(child: Text('History Page')),
+    ReportPage(),
     ProfilePage(), // Halaman profil
   ];
 
@@ -37,7 +40,7 @@ class _MainPageState extends State<MainPage> {
         shape: CircularNotchedRectangle(),
         notchMargin: 6.0,
         child: Container(
-          height: 60, // Adjust this value if needed
+          height: 60,
           child: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -45,8 +48,8 @@ class _MainPageState extends State<MainPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.payment, size: 24),
-                label: 'Pembayaran',
+                icon: Icon(Icons.store, size: 24),
+                label: 'Product',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.history, size: 24),
@@ -58,7 +61,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.purple,
+            selectedItemColor: Color(0xFF9764C7),
             unselectedItemColor: Colors.grey,
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
@@ -76,15 +79,16 @@ class _MainPageState extends State<MainPage> {
         },
         child: Image.asset(
           'assets/images/Cart-Icon.png',
-          width: 25,
-          height: 30,
+          width: 20,
+          height: 25,
         ),
-        backgroundColor: Colors.purple,
+        backgroundColor: Color(0xFF9764C7),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
+
 
 
 

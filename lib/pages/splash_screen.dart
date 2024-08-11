@@ -7,8 +7,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      backgroundColor: Color.fromARGB(255, 84, 247, 127),
-      splash: 'assets/images/logo.png',
+      backgroundColor: Color(0xFF021526),
+      splash: 'assets/images/shop.png',
+      splashIconSize: 200,
       nextScreen: LoginPage(),
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,

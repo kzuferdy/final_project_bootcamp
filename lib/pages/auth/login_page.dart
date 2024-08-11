@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 84, 247, 127),
+      backgroundColor: Color(0xFF021526),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -26,17 +26,18 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image.asset(
-                'assets/images/cat_mario.png',
+                'assets/images/shop.png',
                 width: 200,
                 height: 180,
               ),
               SizedBox(height: 20),
-              Text(
+              const Text(
                 'Welcome Back!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(height: 20),
@@ -46,7 +47,10 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
+                  
                 ),
+                style: TextStyle(
+                    color: Color(0xFF9764C7), )
               ),
               SizedBox(height: 20),
               TextField(
@@ -56,6 +60,9 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock),
                 ),
+                style: TextStyle(
+                    color: Color(0xFF9764C7), 
+                    ),
                 obscureText: true,
               ),
               SizedBox(height: 20),
@@ -89,9 +96,13 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                             }
                           },
-                          child: Text('Login'),
+                          child: Text('Login' ),
+                          
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: Color(0xFF9764C7),
+                            foregroundColor: Colors.black,
+                            
                           ),
                         );
                 },
