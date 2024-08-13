@@ -1,5 +1,5 @@
 class Product {
-  final int id;
+  final String id;
   final String title;
   final String description;
   final String category;
@@ -17,9 +17,9 @@ class Product {
     required this.stock, // Menambahkan stok ke dalam constructor
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(String id, Map<String, dynamic> json) {
     return Product(
-      id: int.tryParse(json['id'].toString()) ?? 0,
+      id: id,
       title: json['title'],
       description: json['description'],
       category: json['category'],
@@ -31,7 +31,6 @@ class Product {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'title': title,
       'description': description,
       'category': category,

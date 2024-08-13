@@ -18,8 +18,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(ProductError('Failed to fetch products'));
       }
     });
-    
-     on<UpdateProduct>((event, emit) async {
+
+    on<UpdateProduct>((event, emit) async {
       try {
         await productService.updateProduct(event.product);
         if (state is ProductLoaded) {

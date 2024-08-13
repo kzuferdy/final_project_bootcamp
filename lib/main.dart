@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'helper/notification_helper.dart';
 import 'logic/auth/auth_bloc.dart';
 import 'logic/cart/cart_bloc.dart';
 import 'logic/product/product_bloc.dart';
@@ -18,7 +19,8 @@ import 'services/product_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  final notificationHelper = NotificationHelper();
+  await notificationHelper.initLocalNotifications();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.android,
   );

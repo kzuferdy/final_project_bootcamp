@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              _buildLogoHeader(), // Tambahkan widget logo di sini
+              _buildLogoHeader(), 
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state.isLoading) {

@@ -80,22 +80,6 @@ class FilterTextFieldWithNotification extends StatelessWidget {
               );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.black), // Ikon logout
-            onPressed: () async {
-              try {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error logging out: ${e.toString()}')),
-                );
-              }
-            },
-          ),
         ],
       ),
     );

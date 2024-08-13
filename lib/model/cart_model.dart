@@ -17,7 +17,7 @@ class CartItem {
   factory CartItem.fromFirestore(Map<String, dynamic> data, String id) {
     return CartItem(
       id: id,
-      product: Product.fromJson(data),
+      product: Product.fromJson(data['product']['id'], data['product']), // Berikan ID produk dan data produk
       quantity: data['quantity'] ?? 1, // Mendapatkan quantity dari Firestore
     );
   }

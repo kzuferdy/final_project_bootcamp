@@ -10,7 +10,7 @@ class _AddProductPageState extends State<AddProductPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _description = '';
-  String _category = '';
+  String _category = 'Elektronik'; // Default category
   String _image = '';
   double _price = 0.0;
   int _stock = 0;
@@ -73,9 +73,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     _buildTextField('Description', 'Masukkan deskripsi produk', (value) {
                       _description = value!;
                     }),
-                    _buildTextField('Category', 'Masukkan kategori produk', (value) {
-                      _category = value!;
-                    }),
+                    _buildCategoryDropdown(),
                     _buildTextField('Image URL', 'Masukkan URL gambar produk', (value) {
                       _image = value!;
                     }),
@@ -102,6 +100,43 @@ class _AddProductPageState extends State<AddProductPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryDropdown() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          labelText: 'Kategori',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal, width: 2.0),
+          ),
+        ),
+        value: _category,
+        items: ['Elektronik', 'Baju', 'Jewerly'].map((category) {
+          return DropdownMenuItem<String>(
+            value: category,
+            child: Text(category),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            _category = value!;
+          });
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Harap pilih kategori';
+          }
+          return null;
+        },
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../payment/payment_statuspage.dart';
+
 class ReportPage extends StatefulWidget {
   @override
   _ReportPageState createState() => _ReportPageState();
@@ -27,22 +29,13 @@ class _ReportPageState extends State<ReportPage> {
               SizedBox(height: 16.0),
               _buildSectionHeader('Filter'),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
                 child: Column(
                   children: [
-                    _buildDropdown(
-                      'Metode Pembayaran',
-                      ['OVO', 'GoPay', 'Dana', 'Kartu Kredit'],
-                      (value) {
-                        setState(() {
-                          selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
                     SizedBox(height: 16),
                     _buildDropdown(
                       'Kategori Produk',
-                      ['Eletronik', 'Baju', 'Jewerly'],
+                      ['Elektronik', 'Baju', 'Jewerly'],
                       (value) {
                         setState(() {
                           selectedCategory = value;
@@ -53,10 +46,10 @@ class _ReportPageState extends State<ReportPage> {
                   ],
                 ),
               ),
-              _buildSectionHeader('Laporan Pembayaran'),
-              _buildPaymentReport(),
               _buildSectionHeader('Laporan Checkout'),
               _buildCheckoutReport(),
+              SizedBox(height: 16.0),
+              _buildPaymentStatusButton(context),
             ],
           ),
         ),
@@ -130,46 +123,6 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 
-  Widget _buildPaymentReport() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _filteredPayments(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(primaryGreen)));
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.red)));
-        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(child: Text('Belum ada data pembayaran.', style: TextStyle(color: primaryGreen)));
-        } else {
-          return Column(
-            children: snapshot.data!.docs.map((doc) {
-              final data = doc.data() as Map<String, dynamic>;
-              return Card(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: ListTile(
-                  title: Text('Jumlah: Rp${data['amount']}', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Metode Pembayaran: ${data['paymentMethod']}'),
-                      Text('Status: ${data['status']}'),
-                      Text('Waktu: ${data['timestamp']?.toDate() ?? 'Unknown'}'),
-                    ],
-                  ),
-                  isThreeLine: true,
-                ),
-              );
-            }).toList(),
-          );
-        }
-      },
-    );
-  }
-
   Widget _buildCheckoutReport() {
     return StreamBuilder<QuerySnapshot>(
       stream: _filteredCheckout(),
@@ -217,15 +170,39 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 
-  Stream<QuerySnapshot> _filteredPayments() {
-    Query query = FirebaseFirestore.instance.collection('payments');
-
-    if (selectedPaymentMethod != null) {
-      query = query.where('paymentMethod', isEqualTo: selectedPaymentMethod);
-    }
-
-    return query.snapshots();
-  }
+ Widget _buildPaymentStatusButton(BuildContext context) {
+  return Center(
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white, backgroundColor: primaryGreen, padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12), // Text color
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        elevation: 5,
+        shadowColor: primaryGreen.withOpacity(0.5),
+      ),
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => PaymentStatusPage(),
+        ));
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.payment, color: Colors.white),
+          SizedBox(width: 8),
+          Text(
+            'Lihat Status Pembayaran',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
   Stream<QuerySnapshot> _filteredCheckout() {
     Query query = FirebaseFirestore.instance.collection('checkout');
